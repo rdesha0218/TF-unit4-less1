@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<!-- YOutube api key
+	AIzaSyBLcpEjFDXNxTSBa1oqQBjpBf8-t-YYLOE
+-->
+<script src="http://code.jquery.com/jquery.min.js"></script>
+	<script type="text/javascript">
+
+$(function(){
+		$('#search-term').submit(function(event){
+		event.preventDefault();
+		var searchTerm = $('#query').val();
+		getRequest(searchTerm);
+		});
+		});
+		
+		function getRequest(searchTerm){
+		var params = {
+		part: 'snippet',
+		key: 'AIzaSyBLcpEjFDXNxTSBa1oqQBjpBf8-t-YYLOE',
+		q: encodeURIComponent($("#query").val()).replace(/%20/g, "+")
+		};
+		url = "https://www.googleapis.com/youtube/v3/search";
+
+		$.getJSON(url, params, function(data){
+		showResults(data.Search);
+		});
+		}
+
+		function showResults(results){
+		var html = "";
+		$.each(results, function(index,value){
+		html += '<p>' + value.Title + '</p>';
+		console.log(value.Title);
+		});
+		$('#search-results').html(html);
+		}
+	</script>
+	<style type="text/css"></style>
+</head>
+<body>
+	<form id="search-term">
+		Text: 
+		<input type="text" name="Text" id="query">
+		<input type="submit" value="Submit">
+	</form>
+	<div id="search-results"></div>
+</body>
+</html>
